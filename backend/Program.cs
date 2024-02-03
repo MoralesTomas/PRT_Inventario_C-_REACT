@@ -30,6 +30,7 @@ MarcaRoutes.Rutas(app);
 ZonaRoutes.Rutas(app);
 
 ProductoRoutes.Rutas(app);
+ReportRoutes.Rutas(app);
 
 
 
