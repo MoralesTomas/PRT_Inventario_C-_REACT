@@ -24,6 +24,13 @@ app.UseCors("AllowAll");
 
 app.MapGet("/", () => "Hello World!");
 
+ProveedorRoutes.Rutas(app);
+PresentacionRoutes.Rutas(app);
 MarcaRoutes.Rutas(app);
+ZonaRoutes.Rutas(app);
+
+ProductoRoutes.Rutas(app);
+
+
 
 app.Run();

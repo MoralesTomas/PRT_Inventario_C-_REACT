@@ -11,7 +11,7 @@ namespace backend.Routes
         {
             app.MapGet("/presentacion", async ([FromServices] DataContext dbContext) =>
             {
-                return Results.Ok(dbContext.Presentacion);
+                return Results.Ok(dbContext.Presentacion.Where(p => p.Activo));
             });
 
             app.MapPut("/presentacion/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Presentacion presentacion) =>

@@ -11,7 +11,7 @@ namespace backend.Routes
         {
             app.MapGet("/marca", async ([FromServices] DataContext dbContext) =>
             {
-                return Results.Ok(dbContext.Marca);
+                return Results.Ok(dbContext.Marca.Where(p=> p.Activo).AsNoTracking());
             });
 
             app.MapPut("/marca/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Marca marca) =>

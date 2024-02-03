@@ -2,6 +2,9 @@
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace backend.Routes
 {
@@ -11,10 +14,45 @@ namespace backend.Routes
         {
             app.MapGet("/producto", async ([FromServices] DataContext dbContext) =>
             {
-                return Results.Ok(dbContext.Producto);
+                var productos = dbContext.Producto
+                    .Where(p => p.Activo)
+                .Select(p => new
+                {
+                    p.IdProducto,
+                    p.IdMarca,
+                    p.IdPresentacion,
+                    p.IdProveedor,
+                    p.IdZona,
+                    p.Codigo,
+                    p.DescripcionProducto,
+                    p.Precio,
+                    p.Stock,
+                    p.Iva,
+                    p.Peso,
+                    p.Activo,
+                    Marca = new
+                    {
+                        p.Marca.Descripcion
+                    },
+                    Presentacion = new
+                    {
+                        p.Presentacion.Descripcion
+                    },
+                    Proveedor = new
+                    {
+                        p.Proveedor.Descripcion
+                    },
+                    Zona = new
+                    {
+                        p.Zona.Descripcion
+                    }
+                });
+
+                return Results.Ok(productos);
             });
 
-            app.MapPut("/producto/actualizar", async ([FromServices] DataContext dbContext, [FromBody]Producto producto) =>
+
+            app.MapPut("/producto/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Producto producto) =>
             {
                 var productoExistente = await dbContext.Producto.FindAsync(producto.IdProducto);
 
@@ -51,12 +89,12 @@ namespace backend.Routes
             {
                 try
                 {
-                    if (await dbContext.Producto.AnyAsync(p => p.IdMarca == producto.IdMarca &&  
+                    if (await dbContext.Producto.AnyAsync(p => p.IdMarca == producto.IdMarca &&
                         p.IdPresentacion == producto.IdPresentacion &&
                         p.IdProveedor == producto.IdProveedor &&
                         p.IdZona == producto.IdZona &&
                         p.Codigo == producto.Codigo &&
-                        p.DescripcionProducto.Equals( producto.DescripcionProducto) &&
+                        p.DescripcionProducto.Equals(producto.DescripcionProducto) &&
                         p.Precio == producto.Precio &&
                         p.Stock == producto.Stock &&
                         p.Iva == producto.Iva &&

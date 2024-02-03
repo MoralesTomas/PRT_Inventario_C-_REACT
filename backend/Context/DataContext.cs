@@ -7,7 +7,6 @@ namespace backend.Context
     {
         public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Presentacion> Presentacion { get; set; }
-
         public DbSet<Marca> Marca { get; set; }
         public DbSet<Zona> Zona{ get; set; }
         public DbSet<Producto> Producto{ get; set; }
