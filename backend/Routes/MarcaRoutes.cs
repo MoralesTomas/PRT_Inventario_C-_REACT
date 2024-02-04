@@ -14,6 +14,43 @@ namespace backend.Routes
                 return Results.Ok(dbContext.Marca.Where(p=> p.Activo).AsNoTracking());
             });
 
+            app.MapGet("/marca/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var marca = await dbContext.Marca
+                    .Where(p => p.Activo && p.IdMarca == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (marca != null)
+                {
+                    return Results.Ok(marca);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna marca con IdMarca {id}.");
+                }
+            });
+
+            app.MapDelete("/marca/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var marca = await dbContext.Marca
+                    .Where(p => p.Activo && p.IdMarca == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (marca != null)
+                {
+                    marca.Activo = false;
+                    await dbContext.SaveChangesAsync();
+                    return Results.Ok(marca);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna marca con IdMarca {id}.");
+                }
+            });
+
+
             app.MapPut("/marca/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Marca marca) =>
             {
                 var marcaExistente = await dbContext.Marca.FindAsync(marca.IdMarca);

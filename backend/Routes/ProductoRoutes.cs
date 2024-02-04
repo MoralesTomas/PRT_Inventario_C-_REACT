@@ -51,6 +51,73 @@ namespace backend.Routes
                 return Results.Ok(productos);
             });
 
+            app.MapGet("/producto/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var producto = await dbContext.Producto
+                    .Where(p => p.Activo && p.IdProducto== id)
+                    .Select(p => new
+                    {
+                        p.IdProducto,
+                        p.IdMarca,
+                        p.IdPresentacion,
+                        p.IdProveedor,
+                        p.IdZona,
+                        p.Codigo,
+                        p.DescripcionProducto,
+                        p.Precio,
+                        p.Stock,
+                        p.Iva,
+                        p.Peso,
+                        p.Activo,
+                        Marca = new
+                        {
+                            p.Marca.Descripcion
+                        },
+                        Presentacion = new
+                        {
+                            p.Presentacion.Descripcion
+                        },
+                        Proveedor = new
+                        {
+                            p.Proveedor.Descripcion
+                        },
+                        Zona = new
+                        {
+                            p.Zona.Descripcion
+                        }
+                    })
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (producto != null)
+                {
+                    return Results.Ok(producto);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ningun producto con IdProducto {id}.");
+                }
+            });
+
+            app.MapDelete("/producto/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var producto = await dbContext.Producto
+                    .Where(p => p.Activo && p.IdProducto == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (producto != null)
+                {
+                    producto.Activo = false;
+                    await dbContext.SaveChangesAsync();
+                    return Results.Ok();
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ningun producto con IdProducto {id}.");
+                }
+            });
+
 
             app.MapPut("/producto/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Producto producto) =>
             {

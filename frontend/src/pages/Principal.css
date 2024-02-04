@@ -1,0 +1,119 @@
+.contenedorPadre {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+  }
+  
+  .div-50 {
+    flex: 0 0 50%;
+    background-color: white;
+    height: fit-content;
+    width: 50%;
+  }
+
+  .div-30 {
+    flex: 0 0 30%;
+    background-color: white;
+    height: 100%;
+  }
+  
+  .div-70 {
+    flex: 0 0 70%;
+    background-color: #1a1a40;
+    padding-right: 1rem;
+    height: 100%;
+  }
+
+
+  /* Principal.css */
+.buttons-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  margin-top: 20px; /* Añade margen superior para separarlo del contenido anterior */
+}
+
+.buttons-container button {
+  margin: 0 10px; /* Espaciado entre los botones */
+  padding: 10px 20px; /* Espaciado interno de los botones */
+  background-color: #007bff; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons-container button:disabled {
+  background-color: #ccc; /* Color de fondo cuando está deshabilitado */
+  cursor: not-allowed;
+}
+
+
+/* MODAL------------------------------- */
+/* Estilos para el modal personalizado */
+.custom-modal {
+  max-width: 400px; /* Tamaño máximo del modal */
+  margin: 0 auto; /* Centrar el modal horizontalmente */
+  padding: 20px; /* Espaciado interior del modal */
+  background-color: #fff; /* Color de fondo del modal */
+  border-radius: 8px; /* Borde redondeado */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra del modal */
+  position: absolute; /* Posición absoluta para centrar verticalmente */
+  top: 50%; /* Ubicación vertical en el 50% de la pantalla */
+  left: 50%; /* Ubicación horizontal en el 50% de la pantalla */
+  transform: translate(-50%, -50%); /* Centrar en el centro */
+}
+
+.custom-modal h2 {
+  margin-bottom: 16px; /* Espacio inferior para el título */
+}
+
+.custom-modal input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.custom-modal button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-modal button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Boton modal ------ */
+
+.btModalContainer {
+  width: fit-content;
+  margin: 20px auto;
+  text-align: center;
+
+}
+
+/* Estilo para el botón personalizado */
+.custom-button {
+  background-color: #007bff; /* Color de fondo */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Borde redondeado */
+  padding: 0.5rem 0.5rem; /* Espaciado interno (vertical horizontal) */
+  cursor: pointer; /* Cursor de puntero al pasar el mouse */
+  font-size: 16px; /* Tamaño de fuente */
+  margin-right: 0.3rem
+}
+
+.custom-button:hover {
+  background-color: #0056b3; /* Cambio de color al pasar el mouse */
+}

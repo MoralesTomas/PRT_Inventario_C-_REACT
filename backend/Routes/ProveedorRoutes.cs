@@ -14,6 +14,43 @@ namespace backend.Routes
                 return Results.Ok(dbContext.Proveedor.Where(p => p.Activo));
             });
 
+            app.MapGet("/proveedor/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var proveedor = await dbContext.Proveedor
+                    .Where(p => p.Activo && p.IdProveedor == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (proveedor != null)
+                {
+                    return Results.Ok(proveedor);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ningun proveedor con IdProveedor {id}.");
+                }
+            });
+
+            app.MapDelete("/proveedor/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var proveedor = await dbContext.Proveedor
+                    .Where(p => p.Activo && p.IdProveedor == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (proveedor != null)
+                {
+                    proveedor.Activo = false;
+                    await dbContext.SaveChangesAsync();
+                    return Results.Ok(proveedor);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ningun proveedor con IdProveedor {id}.");
+                }
+            });
+
+
             app.MapPut("/proveedor/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Proveedor proveedor) =>
             {
                 var proveedorExistente = await dbContext.Proveedor.FindAsync(proveedor.IdProveedor);

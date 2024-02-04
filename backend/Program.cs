@@ -1,6 +1,5 @@
 using backend.Context;
 using backend.Routes;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +21,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseCors("AllowAll");
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Developer -> Morales Tomás");
+
+// Agregar las rutas de cada clase para su consumo
 
 ProveedorRoutes.Rutas(app);
 PresentacionRoutes.Rutas(app);

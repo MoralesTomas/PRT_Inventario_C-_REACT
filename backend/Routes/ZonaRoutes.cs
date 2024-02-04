@@ -14,6 +14,43 @@ namespace backend.Routes
                 return Results.Ok(dbContext.Zona.Where(p => p.Activo));
             });
 
+            app.MapGet("/zona/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var zona = await dbContext.Zona
+                    .Where(p => p.Activo && p.IdZona== id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (zona != null)
+                {
+                    return Results.Ok(zona);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna zona con IdZona {id}.");
+                }
+            });
+
+            app.MapDelete("/zona/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var zona = await dbContext.Zona
+                    .Where(p => p.Activo && p.IdZona == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (zona != null)
+                {
+                    zona.Activo = false;
+                    await dbContext.SaveChangesAsync();
+                    return Results.Ok(zona);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna zona con IdZona {id}.");
+                }
+            });
+
+
             app.MapPut("/zona/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Zona zona) =>
             {
                 var zonaExistente = await dbContext.Zona.FindAsync(zona.IdZona);

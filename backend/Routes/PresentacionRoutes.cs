@@ -14,6 +14,43 @@ namespace backend.Routes
                 return Results.Ok(dbContext.Presentacion.Where(p => p.Activo));
             });
 
+            app.MapGet("/presentacion/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var presentacion = await dbContext.Presentacion
+                    .Where(p => p.Activo && p.IdPresentacion == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (presentacion != null)
+                {
+                    return Results.Ok(presentacion);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna presentacion con IdPresentacion {id}.");
+                }
+            });
+
+            app.MapDelete("/presentacion/{id}", async ([FromServices] DataContext dbContext, int id) =>
+            {
+                var presentacion = await dbContext.Presentacion
+                    .Where(p => p.Activo && p.IdPresentacion == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (presentacion != null)
+                {
+                    presentacion.Activo = false;
+                    await dbContext.SaveChangesAsync();
+                    return Results.Ok(presentacion);
+                }
+                else
+                {
+                    return Results.NotFound($"No se encontró ninguna presentacion con IdPresentacion {id}.");
+                }
+            });
+
+
             app.MapPut("/presentacion/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Presentacion presentacion) =>
             {
                 var presentacionExistente = await dbContext.Presentacion.FindAsync(presentacion.IdPresentacion);
