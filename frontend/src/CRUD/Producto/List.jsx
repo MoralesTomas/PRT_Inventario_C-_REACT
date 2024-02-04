@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import serverUrl from '../../ServerConfig';
 
 import '../List.css';
@@ -51,6 +53,36 @@ const ProductoAdmin = () => {
         }
     };
 
+    const exportToPDF = () => {
+        const pdfDoc = new jsPDF();
+        pdfDoc.text(20, 20, 'Listado de Productos');
+
+        productos.forEach(producto => {
+            const data = [
+                [{ content: 'ID:', styles: { fontStyle: 'bold' } }, { content: `${producto.idProducto}`, styles: { fontStyle: 'bold' } }],
+                ['Descripción:', `${producto.descripcionProducto}`],
+                ['Código:', `${producto.codigo}`],
+                ['Precio:', `${producto.precio}`],
+                ['Stock:', `${producto.stock}`],
+                ['IVA:', `${producto.iva}`],
+                ['Peso:', `${producto.peso}`],
+                ['Activo:', `${producto.activo ? 'Sí' : 'No'}`],
+                ['Marca:', `${producto.marca.descripcion}`],
+                ['Presentación:', `${producto.presentacion.descripcion}`],
+                ['Proveedor:', `${producto.proveedor.descripcion}`],
+                ['Zona:', `${producto.zona.descripcion}`],
+            ];
+
+            pdfDoc.autoTable({
+                head: [['Atributo', 'Valor']],
+                body: data,
+                startY: pdfDoc.autoTableEndPosY() + 30,
+            });
+        });
+
+        pdfDoc.save('Listado_Productos.pdf');
+    };
+
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Listado de Productos</h1>
@@ -74,7 +106,9 @@ const ProductoAdmin = () => {
                         {productos.map(producto => (
                             <tr key={producto.idProducto}>
                                 <td>{producto.idProducto}</td>
-                                <td>{producto.descripcionProducto}</td>
+                                <td style={{ maxWidth: '200px', wordWrap: 'break-word' }}>
+                                    {producto.descripcionProducto}
+                                </td>
                                 <td>{producto.precio}</td>
                                 <td>{producto.stock}</td>
                                 <td>{producto.activo ? 'Sí' : 'No'}</td>
@@ -98,6 +132,9 @@ const ProductoAdmin = () => {
                 </table>
             </div>
             <div style={{ textAlign: 'right' }}>
+                <button className="btn btn-success" style={{ marginRight: '3rem' }} onClick={exportToPDF}>
+                    Exportar a PDF
+                </button>
                 <Link to={`/AgregarProducto`} className="btn btn-success" style={{ marginRight: '3rem' }}>
                     Agregar
                 </Link>
