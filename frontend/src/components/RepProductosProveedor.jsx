@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import serverUrl from '../ServerConfig';
 import { Link } from 'react-router-dom';
+import serverUrl from '../ServerConfig';
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const ProductosPorProveedor = () => {
     const [data, setData] = useState([]);
@@ -19,6 +21,70 @@ const ProductosPorProveedor = () => {
 
         fetchData();
     }, []);
+
+    const exportToPDF = () => {
+        const pdf = new jsPDF();
+
+        data.forEach(proveedor => {
+            // Check if there are products for the provider
+            if (proveedor.productos.length > 0) {
+                pdf.autoTable({
+                    head: [
+                        [
+                            {
+                                content: proveedor.descripcion,
+                                colSpan: 11,
+                                styles: { halign: 'center', fillColor: [64, 64, 64] },
+                            },
+                        ],
+                        [
+                            { content: "Producto", styles: { cellWidth: 'wrap' } },
+                            { content: "ID", styles: { cellWidth: 'wrap' } },
+                            { content: "Código", styles: { cellWidth: 'wrap' } },
+                            { content: "Precio", styles: { cellWidth: 'wrap' } },
+                            { content: "Stock", styles: { cellWidth: 'wrap' } },
+                            { content: "IVA", styles: { cellWidth: 'wrap' } },
+                            { content: "Peso", styles: { cellWidth: 'wrap' } },
+                            { content: "Activo", styles: { cellWidth: 'wrap' } },
+                            { content: "Marca", styles: { cellWidth: 'wrap' } },
+                            { content: "Presentación", styles: { cellWidth: 'wrap' } },
+                            { content: "Zona", styles: { cellWidth: 'wrap' } },
+                        ],
+                    ],
+                    body: proveedor.productos.map(producto => [
+                        producto.descripcionProducto,
+                        producto.idProducto,
+                        producto.codigo,
+                        producto.precio,
+                        producto.stock,
+                        producto.iva,
+                        producto.peso,
+                        producto.activo ? 'Sí' : 'No',
+                        producto.marca.descripcion,
+                        producto.presentacion.descripcion,
+                        producto.zona.descripcion,
+                    ]),
+                    startY: pdf.autoTableEndPosY() + 10,
+                });
+            } else {
+                // If no products, display a row with a message
+                pdf.autoTable({
+                    head: [
+                        [
+                            {
+                                content: proveedor.descripcion,
+                                colSpan: 11,
+                                styles: { halign: 'center', fillColor: [64, 64, 64] },
+                            },
+                        ],
+                        ["No hay productos disponibles para este proveedor."],
+                    ],
+                });
+            }
+        });
+
+        pdf.save("Listado_Productos_Proveedor.pdf");
+    };
 
     return (
         <div>
@@ -71,7 +137,7 @@ const ProductosPorProveedor = () => {
                 ))}
             </div>
             <div style={{ textAlign: 'right' }}>
-                <button className="btn btn-success" style={{ marginRight: '3rem' }} >
+                <button className="btn btn-success" style={{ marginRight: '3rem' }} onClick={exportToPDF}>
                     Exportar a PDF
                 </button>
                 <Link to={`/Reportes`} className="btn btn-success" style={{ marginRight: '3rem' }}>
