@@ -9,11 +9,13 @@ namespace backend.Routes
     {
         public static void Rutas(WebApplication app)
         {
+            // Enpoint para obtener todos los elementos de la tabla marca
             app.MapGet("/marca", async ([FromServices] DataContext dbContext) =>
             {
                 return Results.Ok(dbContext.Marca.Where(p=> p.Activo).AsNoTracking());
             });
 
+            // Enpoint para obtener un elemento especifico de la tabla marca, necesita que le envien un id
             app.MapGet("/marca/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var marca = await dbContext.Marca
@@ -31,6 +33,7 @@ namespace backend.Routes
                 }
             });
 
+            // Enpoint para "eliminar" un elemento de la tabla marca, necesita que le envien un id
             app.MapDelete("/marca/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var marca = await dbContext.Marca
@@ -49,7 +52,8 @@ namespace backend.Routes
                 }
             });
 
-
+            // Enpoint para actualizar un elemento especifico de la tabla marca, necesita que le envien un json 
+            // con los datos de una marca incluyendo el id
             app.MapPut("/marca/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Marca marca) =>
             {
                 var marcaExistente = await dbContext.Marca.FindAsync(marca.IdMarca);
@@ -59,6 +63,7 @@ namespace backend.Routes
                     return Results.NotFound();
                 }
 
+                // Actualizacion de atributos
                 marcaExistente.Descripcion = marca.Descripcion;
                 marcaExistente.Activo = marca.Activo;
 
@@ -73,6 +78,7 @@ namespace backend.Routes
                 }
             });
 
+            // Enpoint para agregar una nueva marca, necesita un json con los datos de una marca sin incluir el id
             app.MapPost("/marca/agregar", async ([FromServices] DataContext dbContext, [FromBody] Marca marca) =>
             {
                 try

@@ -12,11 +12,12 @@ namespace backend.Routes
     {
         public static void Rutas(WebApplication app)
         {
+            // Enpoint para obtener todos los elementos de la tabla producto
             app.MapGet("/producto", async ([FromServices] DataContext dbContext) =>
             {
                 var productos = dbContext.Producto
                     .Where(p => p.Activo)
-                .Select(p => new
+                .Select(p => new    // Se seleccionan los atriutos que queremos retornar
                 {
                     p.IdProducto,
                     p.IdMarca,
@@ -51,11 +52,12 @@ namespace backend.Routes
                 return Results.Ok(productos);
             });
 
+            // Enpoint para obtener un producto especifico por id, necesita que se le envie un id
             app.MapGet("/producto/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var producto = await dbContext.Producto
                     .Where(p => p.Activo && p.IdProducto== id)
-                    .Select(p => new
+                    .Select(p => new // Se seleccionan los atributos que queremos que retorne 
                     {
                         p.IdProducto,
                         p.IdMarca,
@@ -99,6 +101,7 @@ namespace backend.Routes
                 }
             });
 
+            // Endpoint para eliminar un producto, necesita que se le envie un id
             app.MapDelete("/producto/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var producto = await dbContext.Producto
@@ -107,6 +110,7 @@ namespace backend.Routes
 
                 if (producto != null)
                 {
+                    // Se cambia su estado para simular un delete
                     producto.Activo = false;
                     await dbContext.SaveChangesAsync();
                     return Results.Ok();
@@ -117,7 +121,8 @@ namespace backend.Routes
                 }
             });
 
-
+            // Endpoint para actualizar un producto, necesita que se le envie un json con los datos para un 
+            // producto incluyendo el id y las FK
             app.MapPut("/producto/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Producto producto) =>
             {
                 var productoExistente = await dbContext.Producto.FindAsync(producto.IdProducto);
@@ -129,6 +134,7 @@ namespace backend.Routes
 
                 try
                 {
+                    // Actualizacion de atributos
                     productoExistente.IdMarca = producto.IdMarca;
                     productoExistente.IdPresentacion = producto.IdPresentacion;
                     productoExistente.IdProveedor = producto.IdProveedor;
@@ -151,6 +157,8 @@ namespace backend.Routes
                 }
             });
 
+            // Endpoint para agregar un nuevo producto, se debe enviar un json con la data de un producto incluyendo
+            // las FK y sin incluir el id de producto.
             app.MapPost("/producto/agregar", async ([FromServices] DataContext dbContext, [FromBody] Producto producto) =>
             {
                 try

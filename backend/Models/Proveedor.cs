@@ -4,6 +4,7 @@ namespace backend.Models
 {
     public class Proveedor
     {
+        // Entidad que representara los registros de la tabla proveedor
         [Key]
         public int IdProveedor { get; set; }
         public string Descripcion { get; set; }

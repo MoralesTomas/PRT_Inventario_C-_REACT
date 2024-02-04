@@ -9,11 +9,13 @@ namespace backend.Routes
     {
         public static void Rutas(WebApplication app)
         {
+            // Endpoint para obtener todos los registros/instancias de la tabla de zona
             app.MapGet("/zona", async ([FromServices] DataContext dbContext) =>
             {
                 return Results.Ok(dbContext.Zona.Where(p => p.Activo));
             });
 
+            // Enpoint para obtener un registro especifico de la tabla zona, necesita que le envien un id
             app.MapGet("/zona/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var zona = await dbContext.Zona
@@ -30,6 +32,7 @@ namespace backend.Routes
                 }
             });
 
+            // Enpoint para "eliminar" una zona especifica, necesita que le envien un id
             app.MapDelete("/zona/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var zona = await dbContext.Zona
@@ -49,7 +52,8 @@ namespace backend.Routes
                 }
             });
 
-
+            // Endpoint para actualizar una zona, necesita que le envien la informacion de una zona mediante un
+            // json incluyendo el id de la zona a actualizar.
             app.MapPut("/zona/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Zona zona) =>
             {
                 var zonaExistente = await dbContext.Zona.FindAsync(zona.IdZona);
@@ -59,6 +63,7 @@ namespace backend.Routes
                     return Results.NotFound();
                 }
 
+                // Actualizacion de atributos
                 zonaExistente.Descripcion = zona.Descripcion;
                 zonaExistente.Activo = zona.Activo;
 
@@ -73,6 +78,8 @@ namespace backend.Routes
                 }
             });
 
+            // Endpoint para agregar una zona, necesita que le envien la informacion de la zona nueva mediante un json
+            // dicha infomacion no debe inlcuir el id
             app.MapPost("/zona/agregar", async ([FromServices] DataContext dbContext, [FromBody] Zona zona) =>
             {
                 try

@@ -25,6 +25,7 @@ app.MapGet("/", () => "Developer -> Morales Tomás");
 
 // Agregar las rutas de cada clase para su consumo
 
+// Clases con las rutas para un mejor orden.
 ProveedorRoutes.Rutas(app);
 PresentacionRoutes.Rutas(app);
 MarcaRoutes.Rutas(app);

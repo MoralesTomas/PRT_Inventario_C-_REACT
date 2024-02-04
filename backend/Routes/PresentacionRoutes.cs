@@ -9,11 +9,13 @@ namespace backend.Routes
     {
         public static void Rutas(WebApplication app)
         {
+            // Endpoint para obtener todos los elementos de la tabla presentacion
             app.MapGet("/presentacion", async ([FromServices] DataContext dbContext) =>
             {
                 return Results.Ok(dbContext.Presentacion.Where(p => p.Activo));
             });
 
+            // Enpint para obtener un elemento especifico de la tabla presentacion, necesita que le envien un id
             app.MapGet("/presentacion/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var presentacion = await dbContext.Presentacion
@@ -31,6 +33,7 @@ namespace backend.Routes
                 }
             });
 
+            // Enpint para "eliminar" un elemento de la tabla de presentacion, necesita que le envien un id
             app.MapDelete("/presentacion/{id}", async ([FromServices] DataContext dbContext, int id) =>
             {
                 var presentacion = await dbContext.Presentacion
@@ -49,7 +52,8 @@ namespace backend.Routes
                 }
             });
 
-
+            // Enpoint para actualizar una presentacion, necesita que se le envie un json con los datos
+            // de una presentacion incluyendo el id.
             app.MapPut("/presentacion/actualizar", async ([FromServices] DataContext dbContext, [FromBody] Presentacion presentacion) =>
             {
                 var presentacionExistente = await dbContext.Presentacion.FindAsync(presentacion.IdPresentacion);
@@ -59,6 +63,7 @@ namespace backend.Routes
                     return Results.NotFound();
                 }
 
+                // Actualizacion de atributos
                 presentacionExistente.Descripcion = presentacion.Descripcion;
                 presentacionExistente.Activo = presentacion.Activo;
 
@@ -73,6 +78,8 @@ namespace backend.Routes
                 }
             });
 
+            // Endpoint para agregar una presentacion, necesita que se le envie un json con los datos de una
+            // presentacion sin inlcuir el id
             app.MapPost("/presentacion/agregar", async ([FromServices] DataContext dbContext, [FromBody] Presentacion presentacion) =>
             {
                 try

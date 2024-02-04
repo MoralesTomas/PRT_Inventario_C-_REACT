@@ -4,6 +4,7 @@ namespace backend.Models
 {
     public class Marca
     {
+        // Entidad que representara los registros de la tabla marca
         [Key]
         public int IdMarca { get; set; }
         public string Descripcion { get; set; }

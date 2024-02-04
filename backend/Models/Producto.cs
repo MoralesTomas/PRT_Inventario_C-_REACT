@@ -5,6 +5,7 @@ namespace backend.Models
 {
     public class Producto
     {
+        // Entidad que representara los registros de la tabla producto
         [Key]
         public int IdProducto { get; set; }
         public int IdMarca { get; set; }
@@ -21,6 +22,7 @@ namespace backend.Models
         public bool Activo { get; set; }
 
 
+        // Relaciones con las Fk de la tabla
         [ForeignKey("IdMarca")]
         public Marca Marca { get; set; }
 

@@ -4,6 +4,7 @@ namespace backend.Models
 {
     public class Presentacion
     {
+        // Entidad que representara los registros de la tabla presentacion
         [Key]
         public int IdPresentacion { get; set; }
         public string Descripcion { get; set; }
