@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';  
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // Importar la url del servidor desde el archivo de configuracion
 import axios from 'axios';
 
 import '../List.css';
 
 const MarcasAdmin = () => {
+    // Hook para manejar el estado de las marcas
     const [marcas, setMarcas] = useState([]);
 
+    // Peticion GET para obtener las marcas
     useEffect(() => {
         const getElements = async () => {
             try {
@@ -26,6 +28,7 @@ const MarcasAdmin = () => {
     }, []);
 
 
+    // Funcion para eliminar una marca por su id
     const handleDeleteProveedor = async (idMarca) => {
         const shouldDelete = await Swal.fire({
             title: '¿Estás seguro?',
@@ -37,12 +40,13 @@ const MarcasAdmin = () => {
             confirmButtonText: 'Sí, eliminarlo'
         });
 
+        // Si el usuario confirma que desea eliminar el elemento se realiza la peticion DELETE
         if (shouldDelete.isConfirmed) {
             try {
                 const deleteApi = `${serverUrl}/marca/${idMarca}`;
                 await axios.delete(deleteApi);
                 Swal.fire('Eliminado', 'La marca ha sido eliminado correctamente.', 'success');
-                
+
                 // Realiza la petición GET nuevamente para obtener los elementos actualizados
                 const response = await axios.get(`${serverUrl}/marca`);
                 setMarcas(response.data);
@@ -53,6 +57,7 @@ const MarcasAdmin = () => {
         }
     };
 
+    // Retorna la tabla con las marcas y los botones de opciones
     return (
         <>
             <h1>Listado de Marcas</h1>
@@ -83,8 +88,8 @@ const MarcasAdmin = () => {
                                         Eliminar
                                     </button>
                                     <Link to={`/AgregarMarca/${marca.idMarca}`} className="btn btn-success btn-sm ml-2">
-                                    Agregar
-                                </Link>
+                                        Agregar
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

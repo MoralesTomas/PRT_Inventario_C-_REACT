@@ -1,9 +1,11 @@
-import './navbar.css'; 
+import './navbar.css';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
 const Navbar = () => {
+
+  // Retorna el navbar con el logo y los links a las funciones de administrador y reportes
 
   return (
     <div className="navbar">

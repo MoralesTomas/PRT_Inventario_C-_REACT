@@ -4,14 +4,17 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
 
 import '../List.css';
 
 const ProductoAdmin = () => {
+    // Hook para manejar el estado de los productos
     const [productos, setProductos] = useState([]);
 
+    // Peticion GET para obtener los productos
     useEffect(() => {
+        // Funcion asincrona para obtener los productos
         const getElements = async () => {
             try {
                 const api = `${serverUrl}/producto`;
@@ -26,6 +29,7 @@ const ProductoAdmin = () => {
         getElements();
     }, []);
 
+    // Funcion para eliminar un producto
     const handleDeleteProducto = async (idProducto) => {
         const shouldDelete = await Swal.fire({
             title: '¿Estás seguro?',
@@ -37,14 +41,16 @@ const ProductoAdmin = () => {
             confirmButtonText: 'Sí, eliminarlo'
         });
 
+        // Si el usuario confirma que desea eliminar el producto
         if (shouldDelete.isConfirmed) {
             try {
                 const deleteApi = `${serverUrl}/producto/${idProducto}`;
                 await axios.delete(deleteApi);
-                
+
+                // Actualizar la lista de productos
                 const response = await axios.get(`${serverUrl}/producto`);
                 setProductos(response.data);
-                
+
                 Swal.fire('Eliminado', 'El producto ha sido eliminado correctamente.', 'success');
             } catch (error) {
                 console.log(error.response);
@@ -53,10 +59,12 @@ const ProductoAdmin = () => {
         }
     };
 
+    // Funcion para exportar la lista de productos a un archivo PDF
     const exportToPDF = () => {
         const pdfDoc = new jsPDF();
         pdfDoc.text(20, 20, 'Listado de Productos');
 
+        // Iterar sobre la lista de productos para crear las tablas en el PDF
         productos.forEach(producto => {
             const data = [
                 [{ content: 'ID:', styles: { fontStyle: 'bold' } }, { content: `${producto.idProducto}`, styles: { fontStyle: 'bold' } }],
@@ -73,6 +81,7 @@ const ProductoAdmin = () => {
                 ['Zona:', `${producto.zona.descripcion}`],
             ];
 
+            // Crear la tabla en el PDF
             pdfDoc.autoTable({
                 head: [['Atributo', 'Valor']],
                 body: data,
@@ -80,9 +89,11 @@ const ProductoAdmin = () => {
             });
         });
 
+        // Guardar el PDF
         pdfDoc.save('Listado_Productos.pdf');
     };
 
+    // Retorna la tabla con los productos y los botones de opciones
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Listado de Productos</h1>

@@ -1,24 +1,29 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
 
 const AgregarProveedor = () => {
+    // Hooks para manejar el estado del proveedor
     const [descripcion, setDescripcion] = useState("");
     const [activo, setActivo] = useState(false);
 
+    // Funcion para agregar un proveedor
     const handleAgregarProveedor = async () => {
         try {
             const api = `${serverUrl}/proveedor/agregar`;
             const body = { "descripcion": descripcion, "activo": activo };
-            await axios.post(api, body);
+
+            await axios.post(api, body); // Peticion POST para agregar un proveedor
+
             alert('Proveedor agregado correctamente');
-            window.location.href = "/administrar-proveedores";
+            window.location.href = "/administrar-proveedores"; // Redirigir a la lista de proveedores
         } catch (error) {
             console.log(error.response.data);
             alert('Error al agregar el proveedor');
         }
     };
 
+    // Formulario para agregar un proveedor
     return (
         <div className="container mt-4">
             <form>

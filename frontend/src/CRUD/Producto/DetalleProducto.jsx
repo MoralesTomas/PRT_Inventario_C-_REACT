@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 
 
 const DetalleProducto = () => {
+    // Obtener el id del producto de los parametros de la URL
     const { idProducto } = useParams();
+    // Hook para manejar el estado del producto
     const [producto, setProducto] = useState(null);
 
+    // Peticion GET para obtener el producto por su id
     useEffect(() => {
         const getProductoById = async () => {
             try {
@@ -23,20 +26,23 @@ const DetalleProducto = () => {
             }
         };
 
+        // Si hay un id de producto en los parametros de la URL se realiza la peticion GET
         if (idProducto) {
             getProductoById();
         }
     }, [idProducto]);
 
+    // Si el producto no ha sido cargado se muestra un mensaje de carga
     if (!producto) {
         return <p>Cargando...</p>;
     }
 
-
+    // Funcion para exportar los detalles del producto a un archivo PDF
     const exportToPDF = () => {
         const pdfDoc = new jsPDF();
         pdfDoc.text(20, 20, 'Detalles del Producto');
 
+        // Crear un array con los atributos del producto
         const data = [
             ['ID:', `${producto.idProducto}`],
             ['Descripción:', `${producto.descripcionProducto}`],
@@ -52,6 +58,7 @@ const DetalleProducto = () => {
             ['Zona:', `${producto.zona.descripcion}`],
         ];
 
+        // Crear la tabla en el PDF
         pdfDoc.autoTable({
             head: [['Atributo', 'Valor']],
             body: data,
@@ -61,6 +68,7 @@ const DetalleProducto = () => {
         pdfDoc.save(`Detalles_Producto_${producto.idProducto}.pdf`);
     };
 
+    // Retorna la tabla con los detalles del producto y los botones de opciones
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }} >Detalles del Producto</h1>

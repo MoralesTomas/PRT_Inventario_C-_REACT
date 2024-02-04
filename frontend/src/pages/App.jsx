@@ -18,11 +18,13 @@ import AgregarProducto from "../CRUD/Producto/AgregarProducto.jsx"
 import ProductosPorProveedor from '../components/RepProductosProveedor.jsx';
 import RepTopMarcasZona from '../components/RepTopMarcasZona.jsx';
 
-
+// Importar el componente de rutas y el componente de rutas
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 function App() {
+
+  // Retorna el componente de la barra de navegacion y el componente de rutas
   return (
     <>
         <Navbar/>

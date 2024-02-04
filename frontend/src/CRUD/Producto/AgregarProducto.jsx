@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // importar el serverUrl del archivo ServerConfig.js
 
 const AgregarProducto = () => {
+    // Hook para manejar el estado del nuevo producto
     const [nuevoProducto, setNuevoProducto] = useState({
         codigo: "",
         descripcionProducto: "",
@@ -17,11 +18,13 @@ const AgregarProducto = () => {
         idZona: 0,
     });
 
+    // Hooks para manejar el estado de las marcas, proveedores, presentaciones y zonas
     const [marcas, setMarcas] = useState([]);
     const [proveedores, setProveedores] = useState([]);
     const [presentaciones, setPresentaciones] = useState([]);
     const [zonas, setZonas] = useState([]);
 
+    // Peticiones GET para obtener las marcas, proveedores, presentaciones y zonas
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,6 +33,7 @@ const AgregarProducto = () => {
                 const presentacionesApi = `${serverUrl}/presentacion`;
                 const zonasApi = `${serverUrl}/zona`;
 
+                // Realizar las peticiones GET en paralelo
                 const [marcasResponse, proveedoresResponse, presentacionesResponse, zonasResponse] = await Promise.all([
                     axios.get(marcasApi),
                     axios.get(proveedoresApi),
@@ -37,6 +41,7 @@ const AgregarProducto = () => {
                     axios.get(zonasApi),
                 ]);
 
+                // Actualizar el estado de las marcas, proveedores, presentaciones y zonas
                 setMarcas(marcasResponse.data);
                 setProveedores(proveedoresResponse.data);
                 setPresentaciones(presentacionesResponse.data);
@@ -47,17 +52,22 @@ const AgregarProducto = () => {
             }
         };
 
+        // Llamar a la funcion fetchData
         fetchData();
     }, []);
 
+    // Funcion para manejar el cambio en los inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNuevoProducto({ ...nuevoProducto, [name]: value });
     };
 
+    // Funcion para manejar la funcion de agregar un producto
     const handleAgregarProducto = async () => {
         try {
             const agregarApi = `${serverUrl}/producto/agregar`;
+
+            // Realizar la peticion POST para agregar un producto
             await axios.post(agregarApi, {
                 ...nuevoProducto,
                 idMarca: parseInt(nuevoProducto.idMarca),
@@ -66,13 +76,14 @@ const AgregarProducto = () => {
                 idZona: parseInt(nuevoProducto.idZona),
             });
             alert('Producto agregado correctamente');
-            window.location.href = "/administrar-productos";
+            window.location.href = "/administrar-productos"; // Redirigir a la lista de productos
         } catch (error) {
             console.log(error.response);
             alert('Error al agregar el producto');
         }
     };
 
+    // Retornar el formulario para agregar un producto
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Agregar Nuevo Producto</h1>

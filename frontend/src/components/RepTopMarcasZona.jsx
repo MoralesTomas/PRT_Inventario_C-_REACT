@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import serverUrl from '../ServerConfig';
+import serverUrl from '../ServerConfig';    // Importar la URL del servidor
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
 const RepTopMarcasZona = () => {
+    // Hook para manejar el estado de la data
     const [data, setData] = useState([]);
 
+    // Peticion GET para obtener la data del reporte
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -22,9 +24,11 @@ const RepTopMarcasZona = () => {
         fetchData();
     }, []);
 
+    // Funcion para exportar la data a un archivo PDF
     const exportToPDF = () => {
         const pdf = new jsPDF();
 
+        // Iterar sobre la data para crear las tablas en el PDF
         data.forEach(zona => {
             if (zona.topMarcas.length > 0) {
                 pdf.autoTable({

@@ -6,8 +6,10 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
 const ProductosPorProveedor = () => {
+    // Hook para manejar el estado de la data del reporte
     const [data, setData] = useState([]);
 
+    // Peticion GET para obtener la data del reporte de productos por proveedor
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -22,9 +24,11 @@ const ProductosPorProveedor = () => {
         fetchData();
     }, []);
 
+    // Funcion para exportar la data a un archivo PDF
     const exportToPDF = () => {
         const pdf = new jsPDF();
 
+        // Iterar sobre la data para crear las tablas en el PDF
         data.forEach(proveedor => {
             if (proveedor.productos.length > 0) {
                 pdf.autoTable({
@@ -84,6 +88,7 @@ const ProductosPorProveedor = () => {
         pdf.save("Listado_Productos_Proveedor.pdf");
     };
 
+    // Renderizar la data en la pagina
     return (
         <div>
             <h1 style={{ marginLeft: '1rem' }}>Listado de Productos por Proveedor</h1>

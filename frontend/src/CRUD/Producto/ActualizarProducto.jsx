@@ -4,6 +4,7 @@ import axios from 'axios';
 import serverUrl from '../../ServerConfig';
 
 const ActualizarProducto = () => {
+    // Hooks para manejar el estado del producto y las listas de marcas, proveedores, presentaciones y zonas
     const { idProducto } = useParams();
     const [producto, setProducto] = useState(null);
     const [marcas, setMarcas] = useState([]);
@@ -11,6 +12,7 @@ const ActualizarProducto = () => {
     const [presentaciones, setPresentaciones] = useState([]);
     const [zonas, setZonas] = useState([]);
 
+    // Peticiones GET para obtener el producto y las listas de marcas, proveedores, presentaciones y zonas
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -20,6 +22,7 @@ const ActualizarProducto = () => {
                 const presentacionesApi = `${serverUrl}/presentacion`;
                 const zonasApi = `${serverUrl}/zona`;
 
+                // Realizar las peticiones GET en paralelo para obtener el producto y las listas de marcas, proveedores, presentaciones y zonas
                 const [productoResponse, marcasResponse, proveedoresResponse, presentacionesResponse, zonasResponse] = await Promise.all([
                     axios.get(productoApi),
                     axios.get(marcasApi),
@@ -28,6 +31,7 @@ const ActualizarProducto = () => {
                     axios.get(zonasApi),
                 ]);
 
+                // Actualizar el estado del producto y las listas de marcas, proveedores, presentaciones y zonas
                 setProducto(productoResponse.data);
                 setMarcas(marcasResponse.data);
                 setProveedores(proveedoresResponse.data);
@@ -39,38 +43,47 @@ const ActualizarProducto = () => {
             }
         };
 
+        // Si el id del producto existe, realizar la peticion GET para obtener el producto y las listas de marcas, proveedores, presentaciones y zonas
         if (idProducto) {
             fetchData();
         }
     }, [idProducto]);
 
+    // Funcion para manejar el cambio en los inputs del formulario 
     const handleInputChange = (e) => {
+        // Actualizar el estado del producto con los nuevos valores de los inputs usando el spread operator para no perder las propiedades del objeto
         const { name, value } = e.target;
         setProducto({ ...producto, [name]: value });
     };
 
+    // Funcion para manejar la actualizacion del producto 
     const handleUpdateProducto = async () => {
         try {
+            // Realizar la peticion PUT para actualizar el producto
             const updateApi = `${serverUrl}/producto/actualizar`;
+
+            // Enviar el producto con los nuevos valores en el body de la peticion
             await axios.put(updateApi, {
-                ...producto,
+                ...producto, // Enviar el producto con los nuevos valores
                 idMarca: parseInt(producto.idMarca),
                 idPresentacion: parseInt(producto.idPresentacion),
                 idProveedor: parseInt(producto.idProveedor),
                 idZona: parseInt(producto.idZona),
             });
             alert('Producto actualizado correctamente');
-            window.location.href = "/administrar-productos";
+            window.location.href = "/administrar-productos"; // Redirigir al usuario a la lista de productos
         } catch (error) {
             console.log(error.response);
             alert('Error al actualizar el producto');
         }
     };
 
+    // Si el producto no ha sido cargado, mostrar un mensaje de carga
     if (!producto) {
         return <p>Cargando...</p>;
     }
 
+    // Retornar el formulario para editar el producto
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Editar Producto</h1>
@@ -264,7 +277,7 @@ const ActualizarProducto = () => {
                     <a href="/administrar-productos" className="btn btn-primary" >
                         Regresar
                     </a>
-                    
+
                     <button type="button" className="btn btn-success" onClick={handleUpdateProducto}>
                         Actualizar Producto
                     </button>

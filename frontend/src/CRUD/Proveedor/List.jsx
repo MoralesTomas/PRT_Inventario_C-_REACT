@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
 
 import '../List.css';
 
 const ProveedorAdmin = () => {
+    // Hook para manejar el estado de los proveedores
     const [proveedores, setProveedor] = useState([]);
 
+    // Peticion GET para obtener los proveedores
     useEffect(() => {
         const getElements = async () => {
             try {
@@ -24,6 +26,7 @@ const ProveedorAdmin = () => {
         getElements();
     }, []);
 
+    // Funcion para eliminar un proveedor
     const handleDeleteProveedor = async (idProveedor) => {
         const shouldDelete = await Swal.fire({
             title: '¿Estás seguro?',
@@ -35,11 +38,15 @@ const ProveedorAdmin = () => {
             confirmButtonText: 'Sí, eliminarlo'
         });
 
+        // Si el usuario confirma que desea eliminar el proveedor se realiza la peticion DELETE
         if (shouldDelete.isConfirmed) {
             try {
                 const deleteApi = `${serverUrl}/proveedor/${idProveedor}`;
                 await axios.delete(deleteApi);
+
                 Swal.fire('Eliminado', 'El proveedor ha sido eliminado correctamente.', 'success');
+
+                // Realiza la petición GET nuevamente para obtener los elementos actualizados
                 const response = await axios.get(`${serverUrl}/proveedor`);
                 setProveedor(response.data);
             } catch (error) {
@@ -49,6 +56,7 @@ const ProveedorAdmin = () => {
         }
     };
 
+    // Retorna la tabla con los proveedores y los botones de opciones
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Listado de Proveedores</h1>

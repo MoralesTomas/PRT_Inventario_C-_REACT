@@ -1,12 +1,11 @@
-import './Principal.css'; 
+import './Principal.css';
 import Menus from '../components/Menus';
 
-
-
 const Principal = () => {
-    return(
+    // Retorna el componente de los menus
+    return (
         <>
-        <Menus/>
+            <Menus />
         </>
     )
 };

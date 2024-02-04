@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import serverUrl from '../../ServerConfig';
+import serverUrl from '../../ServerConfig'; // Importar la url del servidor desde el archivo de configuracion
 
 const DetalleProveedor = () => {
+    // Obtener el id del proveedor de los parametros de la URL
     const { idProveedor } = useParams();
+    // Hook para manejar el estado del proveedor
     const [proveedor, setProveedor] = useState(null);
 
+    // Peticion GET para obtener el proveedor por su id
     useEffect(() => {
         const getProveedorById = async () => {
             try {
@@ -19,15 +22,18 @@ const DetalleProveedor = () => {
             }
         };
 
+        // Si hay un id de proveedor en los parametros de la URL se realiza la peticion GET
         if (idProveedor) {
             getProveedorById();
         }
     }, [idProveedor]);
 
+    // Si no hay proveedor se muestra un mensaje de carga
     if (!proveedor) {
         return <p>Cargando...</p>;
     }
 
+    // Retorna la tabla con los detalles del proveedor
     return (
         <>
             <h1 style={{ marginLeft: '1rem' }}>Detalles del Proveedor</h1>
