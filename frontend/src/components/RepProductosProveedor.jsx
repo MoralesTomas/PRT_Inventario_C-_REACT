@@ -8,7 +8,6 @@ const ProductosPorProveedor = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const api = `${serverUrl}/reporte/productos-proveedor`;
                 const response = await axios.get(api);
                 setData(response.data);
@@ -22,28 +21,51 @@ const ProductosPorProveedor = () => {
 
     return (
         <div>
-            <h1 style={{ marginLeft: '1rem' }}>Listado de Productos por Proveedor</h1>
+            <h1>Listado de Productos por Proveedor</h1>
             {data.map(proveedor => (
-                <div key={proveedor.idProveedor}>
-                    <h2>{proveedor.descripcion}</h2>
-                    {proveedor.productos.length > 0 ? (
-                        <ul>
-                            {proveedor.productos.map(producto => (
-                                <li key={producto.idProducto}>
-                                    <strong>{producto.descripcionProducto}</strong>
-                                    <ul>
-                                        <li>ID: {producto.idProducto}</li>
-                                        <li>Código: {producto.codigo}</li>
-                                        <li>Precio: {producto.precio}</li>
-                                        {/* Add more details as needed */}
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No hay productos disponibles para este proveedor.</p>
-                    )}
-                </div>
+                <table className="table table-dark table-hover" key={proveedor.idProveedor}>
+                    <thead>
+                        <tr>
+                            <th colSpan="11">{proveedor.descripcion}</th>
+                        </tr>
+                        <tr>
+                            <th>Producto</th>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>IVA</th>
+                            <th>Peso</th>
+                            <th>Activo</th>
+                            <th>Marca</th>
+                            <th>Presentación</th>
+                            <th>Zona</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {proveedor.productos.length > 0 ? (
+                            proveedor.productos.map(producto => (
+                                <tr key={producto.idProducto}>
+                                    <td>{producto.descripcionProducto}</td>
+                                    <td>{producto.idProducto}</td>
+                                    <td>{producto.codigo}</td>
+                                    <td>{producto.precio}</td>
+                                    <td>{producto.stock}</td>
+                                    <td>{producto.iva}</td>
+                                    <td>{producto.peso}</td>
+                                    <td>{producto.activo ? 'Sí' : 'No'}</td>
+                                    <td>{producto.marca.descripcion}</td>
+                                    <td>{producto.presentacion.descripcion}</td>
+                                    <td>{producto.zona.descripcion}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="11">No hay productos disponibles para este proveedor.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             ))}
         </div>
     );
