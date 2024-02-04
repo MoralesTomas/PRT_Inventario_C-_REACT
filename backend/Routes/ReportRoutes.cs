@@ -80,7 +80,6 @@ namespace backend.Routes
                 }
                 catch (Exception ex)
                 {
-                    // Manejar excepciones según tus necesidades
                     return Results.BadRequest($"Error al obtener el top de marcas por zona: {ex.Message}");
                 }
             });

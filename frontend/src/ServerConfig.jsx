@@ -1,3 +1,3 @@
 // serverConfig.jsx
-const serverUrl = 'http://localhost:5154'; // Reemplaza con tu URL de servidor
+const serverUrl = 'http://localhost:5154'; // Reemplazar segun el URL
 export default serverUrl;

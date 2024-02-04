@@ -40,7 +40,6 @@ const ProveedorAdmin = () => {
                 const deleteApi = `${serverUrl}/proveedor/${idProveedor}`;
                 await axios.delete(deleteApi);
                 Swal.fire('Eliminado', 'El proveedor ha sido eliminado correctamente.', 'success');
-                // Realiza la petición GET nuevamente para obtener los elementos actualizados
                 const response = await axios.get(`${serverUrl}/proveedor`);
                 setProveedor(response.data);
             } catch (error) {

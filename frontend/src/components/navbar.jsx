@@ -1,4 +1,4 @@
-import './navbar.css'; // Importa el archivo de estilos CSS
+import './navbar.css'; 
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 

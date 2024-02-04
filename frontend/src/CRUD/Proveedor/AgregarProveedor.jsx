@@ -13,7 +13,6 @@ const AgregarProveedor = () => {
             await axios.post(api, body);
             alert('Proveedor agregado correctamente');
             window.location.href = "/administrar-proveedores";
-            // Puedes redirigir a la página de administración de proveedores u otra según tus necesidades
         } catch (error) {
             console.log(error.response.data);
             alert('Error al agregar el proveedor');

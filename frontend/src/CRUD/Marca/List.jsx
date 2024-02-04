@@ -42,6 +42,7 @@ const MarcasAdmin = () => {
                 const deleteApi = `${serverUrl}/marca/${idMarca}`;
                 await axios.delete(deleteApi);
                 Swal.fire('Eliminado', 'La marca ha sido eliminado correctamente.', 'success');
+                
                 // Realiza la petición GET nuevamente para obtener los elementos actualizados
                 const response = await axios.get(`${serverUrl}/marca`);
                 setMarcas(response.data);

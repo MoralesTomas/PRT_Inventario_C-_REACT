@@ -26,7 +26,6 @@ const ProductosPorProveedor = () => {
         const pdf = new jsPDF();
 
         data.forEach(proveedor => {
-            // Check if there are products for the provider
             if (proveedor.productos.length > 0) {
                 pdf.autoTable({
                     head: [
@@ -67,7 +66,6 @@ const ProductosPorProveedor = () => {
                     startY: pdf.autoTableEndPosY() + 10,
                 });
             } else {
-                // If no products, display a row with a message
                 pdf.autoTable({
                     head: [
                         [

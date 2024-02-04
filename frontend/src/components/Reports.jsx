@@ -1,4 +1,4 @@
-import './Menus.css'; // Importa el archivo de estilos CSS
+import './Menus.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -30,7 +30,7 @@ const Reports = () => {
             <div className="card-body">
                 <h5 className="card-title">Top marcas por zona</h5>
                 <p className="card-text">Podra visualizar/exportar un reporte general de marcas segun las zonas, esto en base a productos. </p>
-                <a href="/administrar-marcas" className="btn btn-primary">Ir a la función</a>
+                <a href="/RepTopMarcasZona" className="btn btn-primary">Ir a la función</a>
             </div>
         </div>
     </div>

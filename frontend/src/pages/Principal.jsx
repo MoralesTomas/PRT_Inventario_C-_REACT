@@ -1,4 +1,4 @@
-import './Principal.css'; // Archivo de estilos CSS
+import './Principal.css'; 
 import Menus from '../components/Menus';
 
 

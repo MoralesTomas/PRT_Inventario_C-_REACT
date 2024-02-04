@@ -37,7 +37,6 @@ const DetalleProducto = () => {
         const pdfDoc = new jsPDF();
         pdfDoc.text(20, 20, 'Detalles del Producto');
 
-        // Extracted data from the product object
         const data = [
             ['ID:', `${producto.idProducto}`],
             ['Descripción:', `${producto.descripcionProducto}`],

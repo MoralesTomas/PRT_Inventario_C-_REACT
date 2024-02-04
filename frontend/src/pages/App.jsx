@@ -16,6 +16,7 @@ import ActualizarProducto from "../CRUD/Producto/ActualizarProducto.jsx"
 import AgregarProducto from "../CRUD/Producto/AgregarProducto.jsx"
 
 import ProductosPorProveedor from '../components/RepProductosProveedor.jsx';
+import RepTopMarcasZona from '../components/RepTopMarcasZona.jsx';
 
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -42,6 +43,7 @@ function App() {
             <Route path="/AgregarProducto" element={<AgregarProducto/>} />
 
             <Route path="/ProductosPorProveedor" element={<ProductosPorProveedor/>} />
+            <Route path="/RepTopMarcasZona" element={<RepTopMarcasZona/>} />
 
 
           </Routes>

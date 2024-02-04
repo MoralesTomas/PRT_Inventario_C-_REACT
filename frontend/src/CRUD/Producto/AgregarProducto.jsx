@@ -66,7 +66,7 @@ const AgregarProducto = () => {
                 idZona: parseInt(nuevoProducto.idZona),
             });
             alert('Producto agregado correctamente');
-            // Redirect or handle as needed
+            window.location.href = "/administrar-productos";
         } catch (error) {
             console.log(error.response);
             alert('Error al agregar el producto');

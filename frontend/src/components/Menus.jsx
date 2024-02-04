@@ -1,4 +1,4 @@
-import './Menus.css'; // Importa el archivo de estilos CSS
+import './Menus.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
