@@ -15,6 +15,9 @@ const Navbar = () => {
         <a href="/" className="button">
           Menu inicial
         </a>
+        <a href="/Reportes" className="button">
+          Reportes
+        </a>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/navbar';
+import Reports from '../components/Reports';
 import Principal from "./Principal"
 
 import MarcasAdmin from "../CRUD/Marca/List.jsx"
@@ -25,6 +26,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Principal/>} />
+            <Route path="/Reportes" element={<Reports/>} />
             <Route path="/administrar-marcas" element={<MarcasAdmin/>} />
 
             <Route path="/administrar-proveedores" element={<ProveedorAdmin/>} />
