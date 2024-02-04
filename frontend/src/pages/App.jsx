@@ -12,6 +12,7 @@ import AgregarProveedor from "../CRUD/Proveedor/AgregarProveedor.jsx"
 
 import DetalleProducto from "../CRUD/Producto/DetalleProducto.jsx"
 import ActualizarProducto from "../CRUD/Producto/ActualizarProducto.jsx"
+import AgregarProducto from "../CRUD/Producto/AgregarProducto.jsx"
 
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -34,6 +35,7 @@ function App() {
             <Route path="/administrar-productos" element={<ProductoAdmin/>} />
             <Route path="/DetalleProducto/:idProducto" element={<DetalleProducto/>} />
             <Route path="/ActualizarProducto/:idProducto" element={<ActualizarProducto/>} />
+            <Route path="/AgregarProducto" element={<AgregarProducto/>} />
 
 
           </Routes>

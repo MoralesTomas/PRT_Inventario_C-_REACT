@@ -13,7 +13,7 @@ const Navbar = () => {
       <h1 className="title">INVENTARIO</h1>
       <div className="buttons">
         <a href="/" className="button">
-          INICIO
+          Menu inicial
         </a>
       </div>
     </div>
