@@ -15,6 +15,8 @@ import DetalleProducto from "../CRUD/Producto/DetalleProducto.jsx"
 import ActualizarProducto from "../CRUD/Producto/ActualizarProducto.jsx"
 import AgregarProducto from "../CRUD/Producto/AgregarProducto.jsx"
 
+import ProductosPorProveedor from '../components/RepProductosProveedor.jsx';
+
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -38,6 +40,8 @@ function App() {
             <Route path="/DetalleProducto/:idProducto" element={<DetalleProducto/>} />
             <Route path="/ActualizarProducto/:idProducto" element={<ActualizarProducto/>} />
             <Route path="/AgregarProducto" element={<AgregarProducto/>} />
+
+            <Route path="/ProductosPorProveedor" element={<ProductosPorProveedor/>} />
 
 
           </Routes>

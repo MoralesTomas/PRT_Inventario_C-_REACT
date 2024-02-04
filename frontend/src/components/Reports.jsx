@@ -17,7 +17,7 @@ const Reports = () => {
             <div className="card-body">
                 <h5 className="card-title">Productos por proveedor</h5>
                 <p className="card-text">Podra visualizar/exportar un reporte general de todos los productos filtrados por su proveedor</p>
-                <a href="/administrar-productos" className="btn btn-primary">Ir a la función</a>
+                <a href="/ProductosPorProveedor" className="btn btn-primary">Ir a la función</a>
             </div>
         </div>
     </div>
