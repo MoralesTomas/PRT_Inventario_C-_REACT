@@ -49,6 +49,16 @@ const AgregarProducto = () => {
                 setProveedores(proveedoresResponse.data);
                 setPresentaciones(presentacionesResponse.data);
                 setZonas(zonasResponse.data);
+
+                // Asignar automáticamente el primer valor de cada lista al nuevo producto
+                setNuevoProducto(prevState => ({
+                    ...prevState,
+                    idMarca: marcasResponse.data.length > 0 ? marcasResponse.data[0].idMarca : 0,
+                    idProveedor: proveedoresResponse.data.length > 0 ? proveedoresResponse.data[0].idProveedor : 0,
+                    idPresentacion: presentacionesResponse.data.length > 0 ? presentacionesResponse.data[0].idPresentacion : 0,
+                    idZona: zonasResponse.data.length > 0 ? zonasResponse.data[0].idZona : 0,
+                }));
+
             } catch (error) {
                 console.log(error.response.data);
                 alert('Error al obtener datos para agregar producto');
