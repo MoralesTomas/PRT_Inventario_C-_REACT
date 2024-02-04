@@ -30,7 +30,7 @@ const DetalleProveedor = () => {
 
     return (
         <>
-            <h1>Detalles del Proveedor</h1>
+            <h1 style={{ marginLeft: '1rem' }}>Detalles del Proveedor</h1>
             <div className="container mt-4">
                 <table className="table table-bordered border-primary">
                     <tbody>

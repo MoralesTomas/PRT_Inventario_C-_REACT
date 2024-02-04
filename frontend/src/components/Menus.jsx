@@ -17,7 +17,7 @@ const Menus = () => {
             <div className="card-body">
                 <h5 className="card-title">Administrar productos</h5>
                 <p className="card-text">Acceso a visualizar, editar, eliminar, agregar en los elementos del tipo producto</p>
-                <a href="/Administrador/Details" className="btn btn-primary">Ir a la función</a>
+                <a href="/administrar-productos" className="btn btn-primary">Ir a la función</a>
             </div>
         </div>
     </div>

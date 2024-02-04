@@ -35,7 +35,6 @@ namespace backend.Routes
             {
                 var proveedor = await dbContext.Proveedor
                     .Where(p => p.Activo && p.IdProveedor == id)
-                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 if (proveedor != null)

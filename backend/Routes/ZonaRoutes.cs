@@ -18,7 +18,6 @@ namespace backend.Routes
             {
                 var zona = await dbContext.Zona
                     .Where(p => p.Activo && p.IdZona== id)
-                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 if (zona != null)

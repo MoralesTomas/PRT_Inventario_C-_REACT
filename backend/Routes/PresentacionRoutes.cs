@@ -35,7 +35,6 @@ namespace backend.Routes
             {
                 var presentacion = await dbContext.Presentacion
                     .Where(p => p.Activo && p.IdPresentacion == id)
-                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 if (presentacion != null)

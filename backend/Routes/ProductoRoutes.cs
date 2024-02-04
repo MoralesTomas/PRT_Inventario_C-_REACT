@@ -103,7 +103,6 @@ namespace backend.Routes
             {
                 var producto = await dbContext.Producto
                     .Where(p => p.Activo && p.IdProducto == id)
-                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 if (producto != null)

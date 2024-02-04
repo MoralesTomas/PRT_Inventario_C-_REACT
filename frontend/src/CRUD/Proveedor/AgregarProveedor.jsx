@@ -1,41 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import axios from 'axios';
 import serverUrl from '../../ServerConfig';
 
-const ActualizarProveedor = () => {
-    const { idProveedor } = useParams();
+const AgregarProveedor = () => {
     const [descripcion, setDescripcion] = useState("");
     const [activo, setActivo] = useState(false);
 
-    useEffect(() => {
-        const getProveedorById = async () => {
-            try {
-                const api = `${serverUrl}/proveedor/${idProveedor}`;
-                const response = await axios.get(api);
-                setDescripcion(response.data.descripcion);
-                setActivo(response.data.activo);
-            } catch (error) {
-                console.log(error.response.data);
-                alert('Error al obtener los detalles del proveedor');
-            }
-        };
-
-        if (idProveedor) {
-            getProveedorById();
-        }
-    }, [idProveedor]);
-
-    const handleActualizar = async () => {
+    const handleAgregarProveedor = async () => {
         try {
-            const api = `${serverUrl}/proveedor/actualizar`;
-            const body = {"idProveedor":idProveedor,"descripcion": descripcion, "activo": activo};
-            await axios.put(api, body);
-            alert('Datos actualizados correctamente');
+            const api = `${serverUrl}/proveedor/agregar`;
+            const body = { "descripcion": descripcion, "activo": activo };
+            await axios.post(api, body);
+            alert('Proveedor agregado correctamente');
             window.location.href = "/administrar-proveedores";
+            // Puedes redirigir a la página de administración de proveedores u otra según tus necesidades
         } catch (error) {
             console.log(error.response.data);
-            alert('Error al actualizar los datos del proveedor');
+            alert('Error al agregar el proveedor');
         }
     };
 
@@ -59,11 +40,11 @@ const ActualizarProveedor = () => {
                 </div>
                 <div className="row mb-3">
                     <div className="col-sm-10 offset-sm-2">
-                    <a href="/administrar-proveedores" className="btn btn-primary" style={{ marginLeft: '1rem' }}>
-                        Regresar
-                    </a>
-                    <button type="button" className="btn btn-success" onClick={handleActualizar}>
-                            Actualizar Datos
+                        <a href="/administrar-proveedores" className="btn btn-primary" style={{ marginLeft: '1rem' }}>
+                            Regresar
+                        </a>
+                        <button type="button" className="btn btn-success" onClick={handleAgregarProveedor}>
+                            Agregar Proveedor
                         </button>
                     </div>
                 </div>
@@ -72,4 +53,4 @@ const ActualizarProveedor = () => {
     );
 };
 
-export default ActualizarProveedor;
+export default AgregarProveedor;

@@ -6,15 +6,15 @@ import serverUrl from '../../ServerConfig';
 
 import '../List.css';
 
-const ProveedorAdmin = () => {
-    const [proveedores, setProveedor] = useState([]);
+const ProductoAdmin = () => {
+    const [productos, setProductos] = useState([]);
 
     useEffect(() => {
         const getElements = async () => {
             try {
-                const api = `${serverUrl}/proveedor`;
+                const api = `${serverUrl}/producto`;
                 const response = await axios.get(api);
-                setProveedor(response.data);
+                setProductos(response.data);
             } catch (error) {
                 console.log(error.response.data);
                 alert('Error al hacer la petición GET');
@@ -24,7 +24,7 @@ const ProveedorAdmin = () => {
         getElements();
     }, []);
 
-    const handleDeleteProveedor = async (idProveedor) => {
+    const handleDeleteProducto = async (idProducto) => {
         const shouldDelete = await Swal.fire({
             title: '¿Estás seguro?',
             text: 'Esta acción no se puede revertir.',
@@ -37,22 +37,23 @@ const ProveedorAdmin = () => {
 
         if (shouldDelete.isConfirmed) {
             try {
-                const deleteApi = `${serverUrl}/proveedor/${idProveedor}`;
+                const deleteApi = `${serverUrl}/producto/${idProducto}`;
                 await axios.delete(deleteApi);
-                Swal.fire('Eliminado', 'El proveedor ha sido eliminado correctamente.', 'success');
-                // Realiza la petición GET nuevamente para obtener los elementos actualizados
-                const response = await axios.get(`${serverUrl}/proveedor`);
-                setProveedor(response.data);
+                
+                const response = await axios.get(`${serverUrl}/producto`);
+                setProductos(response.data);
+                
+                Swal.fire('Eliminado', 'El producto ha sido eliminado correctamente.', 'success');
             } catch (error) {
-                console.log(error.response.data);
-                alert('Error al eliminar el proveedor');
+                console.log(error.response);
+                alert('Error al eliminar el producto');
             }
         }
     };
 
     return (
         <>
-            <h1 style={{ marginLeft: '1rem' }}>Listado de Proveedores</h1>
+            <h1 style={{ marginLeft: '1rem' }}>Listado de Productos</h1>
 
             <div className="ContScroll_min_des">
                 <table className="table table-dark table-hover">
@@ -60,24 +61,34 @@ const ProveedorAdmin = () => {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Descripción</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Stock</th>
                             <th scope="col">Activo</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Zona</th>
+                            <th scope="col">Código</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {proveedores.map(proveedor => (
-                            <tr key={proveedor.idProveedor}>
-                                <td>{proveedor.idProveedor}</td>
-                                <td>{proveedor.descripcion}</td>
-                                <td>{proveedor.activo ? 'Sí' : 'No'}</td>
+                        {productos.map(producto => (
+                            <tr key={producto.idProducto}>
+                                <td>{producto.idProducto}</td>
+                                <td>{producto.descripcionProducto}</td>
+                                <td>{producto.precio}</td>
+                                <td>{producto.stock}</td>
+                                <td>{producto.activo ? 'Sí' : 'No'}</td>
+                                <td>{producto.marca.descripcion}</td>
+                                <td>{producto.zona.descripcion}</td>
+                                <td>{producto.codigo}</td>
                                 <td>
-                                    <Link to={`/DetalleProveedor/${proveedor.idProveedor}`} className="btn btn-secondary btn-sm ml-2">
+                                    <Link to={`/DetalleProducto/${producto.idProducto}`} className="btn btn-secondary btn-sm ml-2">
                                         Detalles
                                     </Link>
-                                    <Link to={`/ActualizarProveedor/${proveedor.idProveedor}`} className="btn btn-info btn-sm ml-2">
+                                    <Link to={`/ActualizarProducto/${producto.idProducto}`} className="btn btn-info btn-sm ml-2">
                                         Editar
                                     </Link>
-                                    <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDeleteProveedor(proveedor.idProveedor)}>
+                                    <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDeleteProducto(producto.idProducto)}>
                                         Eliminar
                                     </button>
                                 </td>
@@ -87,15 +98,12 @@ const ProveedorAdmin = () => {
                 </table>
             </div>
             <div style={{ textAlign: 'right' }}>
-                <Link to={`/AgregarProveedor`} className="btn btn-success" style={{ marginRight: '3rem' }}>
+                <Link to={`/AgregarProducto`} className="btn btn-success" style={{ marginRight: '3rem' }}>
                     Agregar
                 </Link>
             </div>
-
-
-
         </>
     );
 };
 
-export default ProveedorAdmin;
+export default ProductoAdmin;
