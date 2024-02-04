@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import serverUrl from '../../ServerConfig';
 
@@ -11,6 +11,8 @@ const ActualizarProducto = () => {
     const [proveedores, setProveedores] = useState([]);
     const [presentaciones, setPresentaciones] = useState([]);
     const [zonas, setZonas] = useState([]);
+
+    const navigate = useNavigate();
 
     // Peticiones GET para obtener el producto y las listas de marcas, proveedores, presentaciones y zonas
     useEffect(() => {
@@ -71,7 +73,7 @@ const ActualizarProducto = () => {
                 idZona: parseInt(producto.idZona),
             });
             alert('Producto actualizado correctamente');
-            window.location.href = "/administrar-productos"; // Redirigir al usuario a la lista de productos
+            navigate('/administrar-productos'); //  Redirigir al usuario a la lista de productos
         } catch (error) {
             console.log(error.response);
             alert('Error al actualizar el producto');

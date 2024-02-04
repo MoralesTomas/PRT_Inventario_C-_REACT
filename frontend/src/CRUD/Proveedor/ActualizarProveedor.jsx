@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
 
@@ -9,6 +9,8 @@ const ActualizarProveedor = () => {
     // Hooks para manejar el estado del proveedor
     const [descripcion, setDescripcion] = useState("");
     const [activo, setActivo] = useState(false);
+
+    const navigate = useNavigate();
 
     // Peticion GET para obtener el proveedor por su id
     useEffect(() => {
@@ -39,7 +41,7 @@ const ActualizarProveedor = () => {
             await axios.put(api, body);
 
             alert('Datos actualizados correctamente');
-            window.location.href = "/administrar-proveedores"; // Redirigir a la lista de proveedores
+            navigate('/administrar-proveedores'); // Redirigir a la lista de proveedores
         } catch (error) {
             console.log(error.response.data);
             alert('Error al actualizar los datos del proveedor');

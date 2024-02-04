@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import serverUrl from '../../ServerConfig'; // importar la url del servidor desde el archivo de configuracion
+import { useNavigate } from "react-router-dom";
 
 const AgregarProveedor = () => {
     // Hooks para manejar el estado del proveedor
     const [descripcion, setDescripcion] = useState("");
     const [activo, setActivo] = useState(false);
+
+    const navigate = useNavigate();
 
     // Funcion para agregar un proveedor
     const handleAgregarProveedor = async () => {
@@ -16,7 +19,7 @@ const AgregarProveedor = () => {
             await axios.post(api, body); // Peticion POST para agregar un proveedor
 
             alert('Proveedor agregado correctamente');
-            window.location.href = "/administrar-proveedores"; // Redirigir a la lista de proveedores
+            navigate('/administrar-proveedores'); // Redirigir a la lista de proveedores
         } catch (error) {
             console.log(error.response.data);
             alert('Error al agregar el proveedor');

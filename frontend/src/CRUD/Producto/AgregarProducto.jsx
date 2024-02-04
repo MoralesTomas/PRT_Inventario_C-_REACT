@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import serverUrl from '../../ServerConfig'; // importar el serverUrl del archivo ServerConfig.js
+import { useNavigate } from "react-router-dom";
 
 const AgregarProducto = () => {
     // Hook para manejar el estado del nuevo producto
@@ -23,6 +24,8 @@ const AgregarProducto = () => {
     const [proveedores, setProveedores] = useState([]);
     const [presentaciones, setPresentaciones] = useState([]);
     const [zonas, setZonas] = useState([]);
+
+    const navigate = useNavigate();
 
     // Peticiones GET para obtener las marcas, proveedores, presentaciones y zonas
     useEffect(() => {
@@ -76,7 +79,7 @@ const AgregarProducto = () => {
                 idZona: parseInt(nuevoProducto.idZona),
             });
             alert('Producto agregado correctamente');
-            window.location.href = "/administrar-productos"; // Redirigir a la lista de productos
+            navigate('/administrar-productos'); // Redirigir a la lista de productos
         } catch (error) {
             console.log(error.response);
             alert('Error al agregar el producto');
